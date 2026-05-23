@@ -3,7 +3,6 @@ __pycache__/
 *.pyo
 venv/
 .venv/
-*.png
 *.jpg
 .env
 .DS_Store.gmail-app-password
