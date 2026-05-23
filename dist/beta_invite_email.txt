@@ -1,0 +1,50 @@
+Subject: 🎮 Chaotic Suns — Beta Test Invitation
+
+Hey {{name}},
+
+I've been building a game called Chaotic Suns — a cosmic survival sim where you guide a civilization orbiting multiple unpredictable suns. Think orbital physics meets civilization management, with a dash of existential dread.
+
+It's in beta and I'd love your feedback. Takes about 10-15 minutes to get into it.
+
+WHAT IT IS:
+• N-body physics simulation — three suns doing their chaotic dance
+• Civilization management — population, knowledge, era shifts (Stable vs Chaotic)
+• Tech tree — 10 technologies to research, from basic survival to N-body solution
+• Space fleet — build and launch 4 types of probes to explore the system
+• Prediction mode — draw orbital paths and get accuracy scores
+• Random events — solar flares, gravitational spikes, meteor showers
+• 4 scenarios, 4 difficulty levels, 10 achievements
+
+WHAT I NEED FROM YOU:
+• Play for at least 15 minutes
+• Try the prediction mode (E key) and tech tree (T key)
+• See how far you can push your civilization
+• Report any bugs, crashes, or confusing UX
+• General vibe check — is it fun? What sucks?
+
+DOWNLOAD (Linux):
+https://github.com/armstrongsam25/chaotic-suns
+
+To run:
+  1. Extract the zip
+  2. python3 -m venv venv && source venv/bin/activate
+  3. pip install -r requirements.txt
+  4. python3 main.py
+
+(Windows/Mac: same steps, just use python/python3 as appropriate)
+
+CONTROLS:
+  Space     Pause/Resume
+  E         Prediction Mode
+  H         Help (full controls)
+  T         Research Lab
+  1-4       Launch probes
+  Arrows    Pan
+  +/-       Zoom
+  Esc       Menu/Quit
+  F5/F9     Quick save/load
+
+Reply here with any feedback — good, bad, ugly, all of it.
+
+Thanks!
+Sam
