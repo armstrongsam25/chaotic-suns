@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
-"""Upload a new build of Chaotic Suns to itch.io via butler.
+"""One-click upload of Chaotic Suns to itch.io via butler.
 
-Requires:
-    - butler CLI installed (from itch.io)
-    - ITCH_API_KEY environment variable or .itch-api-key file
-    - Your itch.io project already created at: https://itch.io/create
+Prerequisite: Create the project page first!
+    1. Go to https://itch.io/game/new
+    2. Set URL slug: chaotic-suns
+    3. Title: Chaotic Suns
+    4. Classification: Games
+    5. Kind: Downloadable
+    6. Save the page (you can fill details later)
+
+Then run this script. It reads the API key from .itch-api-key.
 
 Usage:
-    # Set your API key (from https://itch.io/user/settings/api-keys)
-    export ITCH_API_KEY=your-key-here
-    python3 upload_itch.py
-
-    # Or create a .itch-api-key file in the repo root
-    echo "your-key-here" > .itch-api-key
+    echo "YOUR_ITCH_API_KEY" > .itch-api-key
     python3 upload_itch.py
 """
 
@@ -21,69 +21,54 @@ import sys
 import subprocess
 from pathlib import Path
 
-# ── Configuration ───────────────────────────────────────────
-ITCH_USER = "armstrongsam25"        # ← CHANGE THIS
-ITCH_GAME = "chaotic-suns"              # Your itch.io project slug
+ITCH_USER = "armstrongsam25"
+ITCH_GAME = "chaotic-suns"
 VERSION = "0.2.0-beta"
 CHANNEL = "linux-beta"
 
-# Find the game directory
-GAME_DIR = Path(__file__).parent  # Root of the repo
+GAME_DIR = Path(__file__).parent
 DIST_DIR = GAME_DIR / "dist" / f"ChaoticSuns_{VERSION}"
 
-# ── API Key ─────────────────────────────────────────────────
-api_key = os.environ.get("ITCH_API_KEY")
+# API Key
+api_key = os.environ.get("BUTLER_API_KEY")
 if not api_key:
-    key_file = GAME_DIR / ".itch-api-key"
-    if key_file.exists():
-        api_key = key_file.read_text().strip()
+    kf = GAME_DIR / ".itch-api-key"
+    if kf.exists():
+        api_key = kf.read_text().strip()
 if not api_key:
-    print("ERROR: No ITCH_API_KEY found.")
-    print("  Set via: export ITCH_API_KEY=your-key")
-    print("  Or create: .itch-api-key file in repo root")
-    print("  Get your key: https://itch.io/user/settings/api-keys")
+    print("ERROR: Set BUTLER_API_KEY or create .itch-api-key")
     sys.exit(1)
 
-# ── Verify butler exists ────────────────────────────────────
-butler = "butler"
-try:
-    subprocess.run([butler, "--version"], capture_output=True, check=True)
-except (subprocess.CalledProcessError, FileNotFoundError):
-    # Try local path
-    for p in [Path.home() / ".local/bin/butler", Path.home() / "bin/butler"]:
-        if p.exists():
-            butler = str(p)
-            break
-    else:
-        print("ERROR: butler not found. Install from: https://itch.io/docs/butler/installing.html")
-        sys.exit(1)
+# Find butler
+butler = None
+for p in [Path.home() / ".local/bin/butler", Path.home() / "bin/butler", "butler"]:
+    try:
+        subprocess.run([str(p), "--version"], capture_output=True, check=True)
+        butler = str(p)
+        break
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        continue
 
-# ── Build the package if needed ─────────────────────────────
+if not butler:
+    print("ERROR: butler not found. Install from https://itch.io/docs/butler/installing.html")
+    sys.exit(1)
+
+# Build package if needed
 if not DIST_DIR.exists():
-    print(f"Building package...")
     subprocess.run([sys.executable, str(GAME_DIR / "package.py")], cwd=str(GAME_DIR))
 
-if not DIST_DIR.exists():
-    print(f"ERROR: Build directory not found: {DIST_DIR}")
-    sys.exit(1)
-
-# ── Upload ─────────────────────────────────────────────────
+# Upload
 target = f"{ITCH_USER}/{ITCH_GAME}:{CHANNEL}"
 print(f"Uploading to: {target}")
-print(f"From: {DIST_DIR}")
-print()
-
-cmd = [butler, "push", str(DIST_DIR), target, f"--userversion={VERSION}"]
-print(f"Running: {' '.join(cmd)}")
-print()
+print(f"Version: {VERSION}")
 
 env = os.environ.copy()
 env["BUTLER_API_KEY"] = api_key
+result = subprocess.run([butler, "push", str(DIST_DIR), target, f"--userversion={VERSION}"],
+                        cwd=str(GAME_DIR), env=env)
 
-result = subprocess.run(cmd, cwd=str(GAME_DIR), env=env)
 if result.returncode == 0:
-    print(f"\n✓ Uploaded successfully!")
-    print(f"  View at: https://{ITCH_USER}.itch.io/{ITCH_GAME}")
+    print(f"\n✓ Live at: https://{ITCH_USER}.itch.io/{ITCH_GAME}")
 else:
-    print(f"\n✗ Upload failed with code {result.returncode}")
+    print(f"\n✗ Failed (exit {result.returncode})")
     sys.exit(result.returncode)
