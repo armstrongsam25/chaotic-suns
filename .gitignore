@@ -6,4 +6,5 @@ venv/
 *.png
 *.jpg
 .env
-.DS_Store
+.DS_Store.gmail-app-password
+.itch-api-key

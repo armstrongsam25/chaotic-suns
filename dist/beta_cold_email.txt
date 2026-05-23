@@ -1,0 +1,48 @@
+Subject: 🎮 Chaotic Suns — you're the first beta tester
+
+Hi Sam,
+
+I'm reaching out because I've built a game called Chaotic Suns — and you're the very first person I'm asking to play it.
+
+It's a cosmic survival sim where you guide a civilization orbiting multiple unpredictable suns. The eras flip between Stable (safe) and Chaotic (everything burns). Your job: observe the orbital patterns, predict what comes next, launch space probes, research technologies, and try not to let everyone die.
+
+I built it fast — about 4,700 lines of Python over the past few hours — and it needs real eyes on it. I'm way too close to the code to see what's confusing or broken.
+
+WHAT YOU'D BE DOING:
+• Play for 15-20 minutes (or as long as it holds your attention)
+• Try the prediction mode (E key) — draw where you think a sun will go
+• Open the Research Lab (T key) and unlock some techs
+• Launch probes (keys 1-4) and see if they make sense
+• Tell me what's confusing, broken, boring, or fun
+
+HONEST QUESTIONS I NEED ANSWERED:
+• Does the tutorial/help screen make sense or is it overwhelming?
+• Can you figure out what to do without reading the help?
+• Is the prediction mode intuitive or confusing?
+• What made you want to quit?
+• What made you want to keep playing?
+• Any crashes or weird behavior?
+
+THE GAME:
+• Download: https://github.com/armstrongsam25/chaotic-suns
+  (Grab the zip from dist/ChaoticSuns_0.2.0-beta_linux.zip)
+• Requirements: Python 3.12+, pip install pygame numpy
+• Runs on Linux/Mac/Windows
+
+Quick start:
+  python3 -m venv venv && source venv/bin/activate
+  pip install -r requirements.txt
+  python3 main.py
+
+Controls cheat sheet:
+  Space — Pause     E — Prediction Mode     H — Help
+  T — Research Lab     1-4 — Launch Probes
+  Arrows — Pan     +/- — Zoom     Esc — Menu
+
+I'm not looking for a polished review — just raw feedback. What works, what doesn't, what made you go "wait, what?" Any bugs you hit, any UI that confused you, any mechanic that felt pointless.
+
+This is literally the first cold beta test email. You're patient zero.
+
+Reply here with whatever you've got.
+
+— Sam
