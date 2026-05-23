@@ -22,6 +22,9 @@ from src.audio import AudioEngine
 from src.menu import Menu, PauseMenu
 from src.lore import LoreEngine
 from src.save_system import SaveSystem
+from src.progression import ProgressionManager, DIFFICULTY_SETTINGS, SCENARIOS, Difficulty
+from src.achievements import AchievementsScreen
+from src.scenario_select import ScenarioSelectScreen
 
 
 class Game:
@@ -40,7 +43,7 @@ class Game:
         self.fullscreen = False
 
         # Game states
-        self.game_state = "menu"  # menu, playing, paused, help
+        self.game_state = "menu"  # menu, scenario_select, playing, paused, help, achievements
         self.mode = MODE_OBSERVE
         self.time_scale = TIME_SCALE
         self.show_help = False
@@ -53,13 +56,16 @@ class Game:
         self.menu = Menu(SCREEN_WIDTH, SCREEN_HEIGHT)
         self.menu.setup()
         self.pause_menu = PauseMenu(SCREEN_WIDTH, SCREEN_HEIGHT)
+        self.scenario_screen = ScenarioSelectScreen(SCREEN_WIDTH, SCREEN_HEIGHT)
 
         # Audio
         self.audio = AudioEngine()
 
-        # Lore & Save
+        # Lore, Save, Progression, Achievements
         self.lore = LoreEngine()
         self.save_system = SaveSystem()
+        self.progression = ProgressionManager()
+        self.achievements_screen = None
 
         # Simulation
         self.simulation = create_three_body_system()
@@ -90,14 +96,17 @@ class Game:
 
     def start_game(self):
         """Initialize/reset game state for play."""
-        self.simulation = create_three_body_system()
+        scenario = self.progression.current_scenario
+        self.simulation = create_three_body_system(scenario['config'])
         self.planet = create_planet(
             self.simulation,
-            pos=(100, 100),
-            vel=(0, 30),
+            pos=scenario['planet_pos'],
+            vel=scenario['planet_vel'],
             name="Trisolaris"
         )
         self.civilization = Civilization()
+        self.progression.apply_difficulty(self.civilization)
+        self.civilization.collapse_limit = self.progression.get_difficulty_effects(0.5, 0)[3] + 1  # +1 extra life
         self.milestones = MilestoneTracker()
         self.renderer.camera.offset = np.array([0.0, 0.0])
         self.renderer.camera.target_zoom = 1.0
@@ -108,9 +117,14 @@ class Game:
         self.prev_era = ERA_STABLE
         self.flash_message = None
         self.flash_timer = 0
+        self._last_collapse = 0
 
         # Start music
         self.audio.start_music()
+
+        # Show difficulty
+        diff_name = DIFFICULTY_SETTINGS[self.progression.current_difficulty]['name']
+        self.show_flash(f"Difficulty: {diff_name}", 120)
 
     def show_flash(self, message, duration=120):
         """Show a flash message."""
@@ -301,12 +315,37 @@ class Game:
         if self.game_state == "menu":
             action = self.menu.update(mouse_pos, mouse_click, self.clock.get_time() / 1000.0)
             if action == "start":
-                self.start_game()
+                self.game_state = "scenario_select"
+                self.scenario_screen.setup(self.progression)
             elif action == "help":
                 self.show_help = True
                 self.game_state = "help"
+            elif action == "settings":
+                self.game_state = "achievements"
+                self.achievements_screen = AchievementsScreen(self.renderer.width, self.renderer.height)
+                self.achievements_screen.setup(
+                    self.milestones.milestones,
+                    self.progression.get_stats_display()
+                )
             elif action == "quit":
                 self.running = False
+
+        elif self.game_state == "scenario_select":
+            action = self.scenario_screen.update(mouse_pos, mouse_click)
+            if action == "start":
+                self.progression.current_scenario = self.scenario_screen.selected_scenario
+                self.progression.current_difficulty = self.scenario_screen.selected_difficulty
+                self.start_game()
+            elif action == "back":
+                self.game_state = "menu"
+                self.menu.setup()
+
+        elif self.game_state == "achievements":
+            if self.achievements_screen:
+                action = self.achievements_screen.update(mouse_pos, mouse_click)
+                if action == "back":
+                    self.game_state = "menu"
+                    self.menu.setup()
 
         elif self.game_state == "paused":
             action = self.pause_menu.update(mouse_pos, mouse_click)
@@ -361,6 +400,13 @@ class Game:
             elif temp < -100:
                 self.civilization.population -= 0.03 * sim_dt * 0.01
                 
+            # Get difficulty-modified rates
+            growth, death, knowledge_gain, collapse_limit = \
+                self.progression.get_difficulty_effects(stability, sim_dt * 0.01)
+            
+            # Override civ growth/death rates with difficulty settings
+            self.civilization.knowledge_rate = knowledge_gain
+            
             self.civilization.update(stability, sim_dt * 0.01)
 
             # Era transition effects
@@ -387,6 +433,14 @@ class Game:
 
             # Update lore engine
             self.lore.update(sim_dt, self.civilization.current_era, stability, state['knowledge'])
+
+            # Check for game over
+            if self.civilization.game_over:
+                self.progression.on_game_end(state['knowledge'], state['collapse_count'])
+                self.show_flash("GAME OVER - Civilization Lost", 300)
+                self.game_state = "paused"
+                self.pause_menu.setup()
+                self.audio.play('collapse')
 
             # Check milestones
             unlocked = self.milestones.check(state)
@@ -579,6 +633,17 @@ class Game:
         """Render current frame."""
         if self.game_state == "menu":
             self.menu.render(self.screen, self.clock.get_time() / 1000.0)
+            pygame.display.flip()
+            return
+
+        if self.game_state == "scenario_select":
+            self.scenario_screen.render(self.screen)
+            pygame.display.flip()
+            return
+
+        if self.game_state == "achievements":
+            if self.achievements_screen:
+                self.achievements_screen.render(self.screen)
             pygame.display.flip()
             return
 

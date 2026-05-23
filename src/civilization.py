@@ -20,6 +20,8 @@ class Civilization:
         self.knowledge_rate = 0.05  # Knowledge gained per cycle in stable era
         self.buildings = 0
         self.collapse_count = 0
+        self.collapse_limit = 3  # Max collapses before permanent death (set by difficulty)
+        self.game_over = False
         
         # Narrative events
         self.events = []
@@ -72,13 +74,14 @@ class Civilization:
 
         # Collapse check
         if self.population < POPULATION_THRESHOLD:
-            if self.collapse_count < 3:
-                self.population = CIV_MAX_POPULATION * 0.3  # Rebound
+            if self.collapse_count < self.collapse_limit:
+                self.population = self.max_population * 0.3  # Rebound
                 self.collapse_count += 1
-                self.events.append(f"Civilization collapsed! Rebooting... (collapse #{self.collapse_count})")
+                self.events.append(f"Civilization collapsed! Rebooting... (collapse #{self.collapse_count}/{self.collapse_limit})")
             else:
                 self.population = 0
-                self.events.append("Final collapse. Civilization lost.")
+                self.game_over = True
+                self.events.append("FINAL COLLAPSE. Civilization permanently lost. The three-body problem has claimed another victim.")
 
         # Event cooldown
         if self.event_cooldown > 0:
