@@ -27,8 +27,8 @@ DIFFICULTY_SETTINGS = {
         'starting_population': 70,
     },
     Difficulty.NORMAL: {
-        'name': 'Trisolaran Scholar',
-        'description': 'Standard chaos. The three-body problem in its full glory.',
+        'name': 'Stargazer',
+        'description': 'Standard chaos. The n-body problem in its full glory.',
         'civ_growth_rate': 0.10,
         'civ_death_chaotic': 0.30,
         'civ_death_stable': 0.01,
@@ -53,8 +53,8 @@ DIFFICULTY_SETTINGS = {
         'starting_population': 30,
     },
     Difficulty.IMPOSSIBLE: {
-        'name': 'Dark Forest',
-        'description': 'The true Trisolaran experience. Good luck.',
+        'name': 'Event Horizon',
+        'description': 'The true chaotic experience. Good luck.',
         'civ_growth_rate': 0.03,
         'civ_death_chaotic': 0.60,
         'civ_death_stable': 0.02,
@@ -70,7 +70,7 @@ DIFFICULTY_SETTINGS = {
 SCENARIOS = [
     {
         'id': 'default',
-        'name': 'Classic Trisolaris',
+        'name': 'Classic System',
         'description': 'The standard three-sun system. Three suns of varying mass orbit in a beautiful, chaotic dance.',
         'config': 'default',
         'planet_pos': (100, 100),
@@ -89,7 +89,7 @@ SCENARIOS = [
     {
         'id': 'close',
         'name': 'The Tight Embrace',
-        'description': 'Three suns born dangerously close. Their gravitational war begins immediately — and Trisolaris is caught in the middle.',
+        'description': 'Three suns born dangerously close. Their gravitational war begins immediately.',
         'config': 'close',
         'planet_pos': (20, 20),
         'planet_vel': (20, -10),
@@ -98,7 +98,7 @@ SCENARIOS = [
     {
         'id': 'wide',
         'name': 'The Vast Expanse',
-        'description': 'The suns are far apart. Trisolaris has breathing room — for now. But chaos always finds a way.',
+        'description': 'The suns are far apart. There is breathing room — for now.',
         'config': 'wide',
         'planet_pos': (200, -100),
         'planet_vel': (-5, 20),

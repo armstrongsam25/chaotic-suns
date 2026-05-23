@@ -1,4 +1,4 @@
-"""Save/Load system for Three Body VR."""
+"""Save/Load system for Chaotic Suns."""
 
 import json
 import os

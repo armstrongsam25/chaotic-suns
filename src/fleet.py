@@ -1,6 +1,6 @@
-"""Trisolaran fleet and space probe system.
+"""Fleet and space probe system.
 
-The player can build and deploy ships that interact with the three-body system.
+The player can build and deploy ships to explore the system.
 Ships explore, collect data, and can be sacrificed to gain knowledge.
 """
 
@@ -12,7 +12,7 @@ from src.constants import *
 
 
 class SpaceProbe:
-    """A probe launched by the Trisolaran civilization."""
+    """A probe launched by the civilization."""
 
     PROBE_TYPES = {
         'scout': {
@@ -137,7 +137,7 @@ class SpaceProbe:
 
 
 class FleetManager:
-    """Manages the Trisolaran space fleet."""
+    """Manages the space fleet."""
 
     def __init__(self):
         self.probes = []

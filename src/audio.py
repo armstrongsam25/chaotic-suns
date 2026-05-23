@@ -1,4 +1,4 @@
-"""Procedural audio generation for Three Body VR.
+"""Procedural audio generation for Chaotic Suns.
 
 Generates sounds programmatically since we can't rely on audio files.
 Uses pygame's mixer to create sounds from raw waveforms.

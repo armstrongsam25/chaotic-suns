@@ -10,7 +10,7 @@ pygame.init()
 screen = pygame.display.set_mode((1200, 800), pygame.NOFRAME)
 renderer = Renderer(screen)
 sim = create_three_body_system()
-planet = create_planet(sim, pos=(100, 100), vel=(0, 30), name="Trisolaris")
+planet = create_planet(sim, pos=(100, 100), vel=(0, 30), name="Chaos Prime")
 
 # Run a few physics steps
 for _ in range(50):

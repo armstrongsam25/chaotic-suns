@@ -1,4 +1,4 @@
-"""Advanced visual effects for Three Body VR.
+"""Advanced visual effects for Chaotic Suns.
 
 Nebula clouds, star fields, shockwaves, and other atmospheric effects.
 """

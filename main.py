@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Three Body VR - Main entry point.
+"""Chaotic Suns - Main entry point.
 
-A game inspired by Liu Cixin's The Three Body Problem.
-Enter the VR world of Trisolaris and attempt to solve the chaotic three-body problem.
+A cosmic survival game where you guide a civilization
+orbiting multiple chaotic suns. Observe, predict, and survive.
 """
 
 import sys
@@ -91,7 +91,7 @@ class Game:
             self.simulation,
             pos=(100, 100),
             vel=(0, 30),
-            name="Trisolaris"
+            name="Chaos Prime"
         )
 
         # Civilization
@@ -120,7 +120,7 @@ class Game:
             self.simulation,
             pos=scenario['planet_pos'],
             vel=scenario['planet_vel'],
-            name="Trisolaris"
+            name="Chaos Prime"
         )
         self.civilization = Civilization()
         self.progression.apply_difficulty(self.civilization)
@@ -151,7 +151,7 @@ class Game:
         self.show_flash(f"Difficulty: {diff_name}", 120)
 
     def _launch_probe(self, probe_type, target_sun):
-        """Attempt to launch a probe from Trisolaris."""
+        """Attempt to launch a probe from Chaos Prime."""
         if probe_type not in self.fleet.available_types:
             return f"{probe_type.title()} probes not yet available"
 
@@ -294,7 +294,7 @@ class Game:
 
                     elif event.key == pygame.K_c:
                         self.renderer.camera.target_offset = self.planet.pos.copy()
-                        self.show_flash("Centered on Trisolaris", 30)
+                        self.show_flash("Centered on Chaos Prime", 30)
 
                     elif event.key == pygame.K_t and self.game_state == "playing":
                         self.game_state = "research"
@@ -653,12 +653,12 @@ class Game:
         self.screen.blit(overlay, (0, 0))
 
         lines = [
-            ("THREE BODY VR - CONTROLS", True, YELLOW),
+            ("CHAOTIC SUNS - CONTROLS", True, YELLOW),
             ("", False, None),
             ("Space        Pause / Resume", False, WHITE),
             ("E            Toggle Prediction Mode", False, WHITE),
             ("R            Reset Simulation", False, WHITE),
-            ("C            Center on Trisolaris", False, WHITE),
+            ("C            Center on Planet", False, WHITE),
             ("H            Toggle Help", False, WHITE),
             ("Tab          Toggle Event Log", False, WHITE),
             ("M            Mute/Unmute Audio", False, WHITE),
@@ -683,16 +683,16 @@ class Game:
             ("", False, None),
             ("THE STORY", True, YELLOW),
             ("", False, None),
-            ("You have entered the VR world of Trisolaris,", False, CYAN),
-            ("a planet orbiting three chaotic suns.", False, CYAN),
+            ("You have landed on Chaos Prime,", False, CYAN),
+            ("a planet orbiting multiple chaotic suns.", False, CYAN),
             ("Civilizations rise during Stable Eras and fall", False, CYAN),
             ("during Chaotic Eras when the suns' paths", False, CYAN),
             ("become unpredictable.", False, CYAN),
             ("", False, None),
             ("Your goal: observe the orbital patterns,", False, CYAN),
-            ("predict era changes, and help Trisolaran", False, CYAN),
-            ("civilization survive by gaining understanding", False, CYAN),
-            ("of the three-body problem.", False, CYAN),
+            ("predict era changes, and help your", False, CYAN),
+            ("civilization survive and understand", False, CYAN),
+            ("the patterns of the chaotic suns.", False, CYAN),
             ("", False, None),
             ("Press H or Esc to return", False, GRAY),
         ]

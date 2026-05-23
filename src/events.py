@@ -1,4 +1,4 @@
-"""Random event system for Three Body VR.
+"""Random event system for Chaotic Suns.
 
 Catastrophic and beneficial events that spice up the game:
 solar flares, gravitational spikes, syzygies, meteor showers, etc.

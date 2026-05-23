@@ -1,129 +1,90 @@
-"""Narrative lore system with quotes and events from The Three Body Problem."""
+"""Narrative lore system with original quotes and events."""
 
 import random
 
 
-# Collection of lore fragments, quotes, and narrative events
-QUOTES = [
-    "The universe is a dark forest. Every civilization is a silent hunter.",
-    "To effectively contain a civilization, that civilization must not know that it is being contained.",
-    "In the face of the three suns, all life is fragile.",
-    "A Stable Era is when the planet orbits just one sun. But how long will it last?",
-    "The Trisolarans learned to dehydrate and wait. Perhaps we should too.",
-    "Three bodies in motion can never be predicted with certainty.",
-    "The sophons have arrived. They watch everything.",
-    "Do not answer. Do not answer. Do not answer.",
-    "You are bugs, they said. And bugs never truly win. But bugs are never truly defeated either.",
-    "Every era ends. Every civilization falls. But some rise again.",
-    "The Chaotic Eras are not random — they only appear so to us.",
-    "We are like ants watching a hurricane. We see the chaos but not the pattern.",
-    "Civilization is a brief flicker between two long darknesses.",
-    "The droplet — perfect in form, terrifying in purpose.",
-    "To a Trisolaran, a Stable Era is a miracle. To us, it's just Tuesday.",
-    "The wallfacers knew: to keep a secret from an enemy who can read minds, you must first hide it from yourself.",
-    "Space is not empty. It is watching.",
-    "If you destroy a civilization, you destroy a universe.",
-    "The speed of light: perhaps it was once faster. Perhaps someone slowed it down.",
-    "We are small. The universe is vast. And the three-body problem has no solution.",
+ORIGINAL_QUOTES = [
+    "In the dance of three suns, only the patient survive.",
+    "A stable era is a gift. A chaotic era is a lesson.",
+    "We looked to the heavens and found only uncertainty.",
+    "Civilizations rise like waves, and fall like them too.",
+    "The ancients recorded 192 civilizations. Only the 193rd learned to watch the patterns.",
+    "Knowledge is the only shield against the chaos.",
+    "To a civilization of the three suns, a single sunrise is a miracle.",
+    "The astronomers said it was impossible. The mathematicians proved them right.",
+    "We are small. The universe is vast. And chaos has no mercy.",
+    "Between the burning and the freezing, there is a narrow band called hope.",
+    "They say the universe is empty. We know better — the universe is watching.",
+    "A prediction is not certainty. It is a bet against chaos.",
+    "The probe was launched on a Tuesday. By Friday, it had seen three sunrises.",
+    "Some say the stars are random. Others say they are merely complicated.",
+    "The old ones knew: when the sky turns orange, dig deep.",
 ]
 
-ERA_EVENTS = {
+ERA_TRANSITIONS = {
     "stable": [
-        "The suns align in a rare configuration. Trisolaris basks in warmth.",
-        "A golden age begins. The Trisolarans build great cities.",
-        "The stars are calm. Civilization flourishes.",
-        "For now, the orbits are predictable. The Trisolarans know peace.",
-        "This Stable Era may last generations. Or it may end tomorrow.",
-        "The libraries fill with knowledge. The Trisolarans study the heavens.",
-    ],
-    "transition": [
-        "The suns wobble. A subtle shift in their dance.",
-        "The elders sense change coming. The signs are there.",
-        "A second sun draws near. The temperature begins to rise.",
-        "The astronomers watch nervously. Their models show instability.",
-        "The beautiful pattern is breaking down. Chaos approaches.",
-        "Between stability and chaos, there is a moment of terrible beauty.",
+        "A golden age dawns. The cities rebuild.",
+        "For now, the orbits are gentle. The people breathe.",
+        "The libraries fill with knowledge. Scholars study the heavens.",
+        "A rare alignment brings warmth and hope.",
+        "Crops grow. Children play under a calm sky.",
     ],
     "chaotic": [
-        "The three suns rage across the sky. No pattern can be found.",
-        "All three suns burn at once! The surface becomes uninhabitable.",
-        "The Trisolarans dehydrate, waiting for the next Stable Era.",
-        "Civilization shudders. The suns are unpredictable today.",
-        "In the chaotic dance, there is a terrifying beauty.",
-        "The planet swings wildly between the three gravitational wells.",
-        "No two cycles are the same. The chaos is complete.",
+        "The suns dance wildly. Civilization holds its breath.",
+        "Chaos returns. The old fears resurface.",
+        "A sun grows too close. The ground trembles.",
+        "The sky turns to fire and ice in the same hour.",
+        "A dark era begins. The people take shelter.",
+    ],
+    "transition": [
+        "Something is changing. The patterns are shifting.",
+        "The astronomers argue. No one knows what comes next.",
+        "A tension hangs in the air. The suns are indecisive.",
+        "Between eras, there is only uncertainty.",
     ],
 }
 
 MILESTONE_NARRATIVES = {
-    "first_cycle": "You witness your first complete orbital cycle. The pattern is not yet clear, but you sense there is something beneath the chaos.",
-    "stable_era_100": "100 cycles of stability! The Trisolaran historians will call this the Golden Century. The libraries overflow with knowledge and art.",
-    "population_max": "The planet teems with life. Cities span the continents. For this brief moment, Trisolaran civilization is at its zenith.",
-    "survive_10_collapses": "Ten civilizations have risen and fallen on this world. Each left something behind. The Trisolarans have learned resilience beyond measure.",
-    "knowledge_50": "You begin to see patterns in the chaos. The three suns are not random — their movements follow laws. Perhaps the three-body problem IS solvable...",
-    "knowledge_100": "ENLIGHTENMENT. You have glimpsed the underlying order of the three-body system. The Trisolarans now have a chance to predict, to prepare, to survive.",
-    "first_prediction": "Your first prediction. The shimmering line of possibility stretches into the future. If you can see it, perhaps you can navigate it.",
-    "predict_era_change": "You predicted an era change before it happened! This is the power that could save a civilization — or doom another.",
+    "first_cycle": "100 cycles of watching the skies! The astronomers have recorded their first complete pattern. Is it repeatable? Only time will tell.",
+    "stable_era_100": "A century of stability! The people call this the Golden Century. Art, science, and culture flourish under a calm sky.",
+    "population_max": "The planet teems with life. Cities span the continents. For this brief moment, civilization is at its zenith.",
+    "survive_10_collapses": "Ten civilizations have risen and fallen on this world. Each collapse left lessons behind. The people have learned resilience beyond measure.",
+    "knowledge_50": "You begin to see the patterns beneath the chaos. The suns are not random — their movements follow laws. A solution may exist...",
+    "knowledge_100": "ENLIGHTENMENT. You have glimpsed the underlying order of the chaotic system. The civilization now has a chance to predict, to prepare, to survive.",
+    "first_prediction": "You've made your first prediction. The path ahead shimmers with possibility and uncertainty.",
+    "predict_era_change": "You correctly predicted an era change! Your understanding of the patterns grows deeper.",
+    "first_probe": "First probe launched! The people look to the stars with new hope.",
+    "fleet_commander": "Fleet Commander! Five probes are now active among the suns. The civilization reaches outward.",
 }
 
 
 class LoreEngine:
-    """Manages narrative events, quotes, and storytelling."""
+    """Generates narrative flavor and events."""
 
     def __init__(self):
-        self.shown_quotes = set()
-        self.quote_cooldown = 0
         self.current_quote = None
         self.quote_timer = 0
+        self.quote_duration = 300  # Frames between quote changes
 
-        # Track narrative state
-        self.total_cycles = 0
-        self.last_narrative_event = ""
-        self.narrative_history = []
+    def update(self, dt, current_era, stability, knowledge):
+        """Update lore state."""
+        self.quote_timer -= dt
+        if self.quote_timer <= 0:
+            self.current_quote = self.get_random_quote()
+            self.quote_timer = self.quote_duration + random.uniform(-60, 60)
 
     def get_random_quote(self):
-        """Get a random quote not recently shown."""
-        available = [q for q in QUOTES if q not in self.shown_quotes]
-        if not available:
-            self.shown_quotes.clear()
-            available = QUOTES
+        return random.choice(ORIGINAL_QUOTES)
 
-        quote = random.choice(available)
-        self.shown_quotes.add(quote)
-        return quote
+    def get_era_narrative(self, era):
+        """Get flavor text for an era transition."""
+        choices = ERA_TRANSITIONS.get(era, ERA_TRANSITIONS["transition"])
+        return random.choice(choices)
 
-    def get_era_event(self, era):
-        """Get a random narrative event for the current era."""
-        events = ERA_EVENTS.get(era, ERA_EVENTS["transition"])
-        return random.choice(events)
-
-    def get_milestone_narrative(self, milestone_key):
+    def get_milestone_narrative(self, milestone_id):
         """Get narrative text for a milestone."""
-        return MILESTONE_NARRATIVES.get(milestone_key, "")
-
-    def update(self, dt, era, stability, knowledge):
-        """Update lore engine, potentially showing quotes."""
-        self.total_cycles += dt
-
-        if self.quote_cooldown > 0:
-            self.quote_cooldown -= dt
-
-        # Show quotes periodically
-        if self.quote_cooldown <= 0 and random.random() < 0.002 * dt:
-            self.current_quote = self.get_random_quote()
-            self.quote_timer = 300  # Display for ~5 seconds
-            self.quote_cooldown = 500  # Wait before next quote
-
-        if self.quote_timer > 0:
-            self.quote_timer -= 1
-
-    def add_narrative_event(self, event):
-        """Record a narrative event."""
-        self.narrative_history.append(event)
-        self.last_narrative_event = event
+        return MILESTONE_NARRATIVES.get(milestone_id)
 
     def get_active_quote(self):
-        """Get current quote text or None."""
-        if self.quote_timer > 0 and self.current_quote:
-            return self.current_quote
-        return None
+        """Return the current active quote for display."""
+        return self.current_quote

@@ -1,4 +1,4 @@
-"""N-body physics engine for the three-body problem."""
+"""N-body physics engine for chaotic n-star systems."""
 
 import numpy as np
 from src.constants import G, SOFTENING
@@ -221,7 +221,7 @@ class NBodySimulation:
 
 
 def create_three_body_system(config="default"):
-    """Create the classic three-body problem configuration.
+    """Create the classic chaotic n-star configuration.
     
     Args:
         config: Which configuration to use.
@@ -233,7 +233,7 @@ def create_three_body_system(config="default"):
     sim = NBodySimulation()
 
     if config == "figure8":
-        # The famous figure-8 solution (stable three-body orbit!)
+        # The famous figure-8 solution (mathematically stable orbit!)
         # This actually works in Newtonian gravity (discovered by Moore, Chenciner, Montgomery)
         sun1 = CelestialBody((0.97000436, -0.24308753), (-0.93240737, -0.86473146),
                             100, 18, (255, 200, 60), "Alpha Sun", True)
@@ -265,7 +265,7 @@ def create_three_body_system(config="default"):
     return sim
 
 
-def create_planet(sim, pos, vel, name="Trisolaris"):
+def create_planet(sim, pos, vel, name="Chaos Prime"):
     """Add a planet to the simulation."""
     planet = CelestialBody(
         pos=pos,

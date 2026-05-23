@@ -1,4 +1,4 @@
-"""Procedural starfield with parallax scrolling for Three Body VR."""
+"""Procedural starfield for Chaotic Suns."""
 
 import random
 import pygame

@@ -1,11 +1,11 @@
-"""Civilization management system for the Three Body VR game."""
+"""Civilization management system for Chaotic Suns."""
 
 import random
 from src.constants import *
 
 
 class Civilization:
-    """Represents the Trisolaran civilization trying to survive the chaos."""
+    """Represents the civilization trying to survive the chaos."""
 
     def __init__(self):
         self.population = CIV_MAX_POPULATION / 2
@@ -16,7 +16,7 @@ class Civilization:
         self.era_duration = 0
         self.era_timer = 0
         self.era_history = []  # Record of eras
-        self.knowledge = 0.0  # Understanding of the three-body problem (0-100)
+        self.knowledge = 0.0  # Understanding of n-body chaos (0-100)
         self.knowledge_rate = 0.05  # Knowledge gained per cycle in stable era
         self.buildings = 0
         self.collapse_count = 0
@@ -48,7 +48,7 @@ class Civilization:
         self.era_duration += dt
 
         # Population dynamics
-        sun_count = 3  # Always 3 suns in three-body problem
+        sun_count = 3  # Always 3 suns in the system
         if self.current_era == ERA_STABLE:
             growth = CIV_GROWTH_RATE * sun_count * dt
             death = CIV_DEATH_RATE_STABLE * self.population * dt
@@ -81,7 +81,7 @@ class Civilization:
             else:
                 self.population = 0
                 self.game_over = True
-                self.events.append("FINAL COLLAPSE. Civilization permanently lost. The three-body problem has claimed another victim.")
+                self.events.append("FINAL COLLAPSE. Civilization permanently lost. The chaos has claimed another victim.")
 
         # Event cooldown
         if self.event_cooldown > 0:
@@ -104,7 +104,7 @@ class Civilization:
         """Award knowledge points (e.g., from player discoveries)."""
         self.knowledge = min(100, self.knowledge + amount)
         if amount > 0:
-            self.events.append(f"Gained {amount:.1f} knowledge about the three-body problem!")
+            self.events.append(f"Gained {amount:.1f} knowledge about the n-body system!")
 
     def get_recent_events(self, count=5):
         """Get recent narrative events."""
@@ -129,14 +129,14 @@ class MilestoneTracker:
         }
         self.unlocked_messages = {
             'first_cycle': "You've witnessed your first orbital cycle. The dance of the three suns is mesmerizing.",
-            'stable_era_100': "A Stable Era lasting 100 cycles! The Trisolarans remember this as a golden age.",
+            'stable_era_100': "A Stable Era lasting 100 cycles! The historians remember this as a golden age.",
             'population_max': "Civilization at peak population! The cities sprawl across the planet.",
-            'survive_10_collapses': "Ten collapses survived. The Trisolarans have become resilient.",
+            'survive_10_collapses': "Ten collapses survived. The civilization has become resilient.",
             'knowledge_50': "You begin to understand the pattern beneath the chaos...",
-            'knowledge_100': "ENLIGHTENMENT: You have solved the three-body problem!",
+            'knowledge_100': "ENLIGHTENMENT: You have solved the n-body problem!",
             'first_prediction': "You've made your first prediction. The path ahead shimmers with possibility.",
             'predict_era_change': "You correctly predicted an era change! Your understanding grows.",
-            'first_probe': "First probe launched! The Trisolaran fleet begins its journey to the stars.",
+            'first_probe': "First probe launched! The fleet begins its journey to the stars.",
             'fleet_commander': "Fleet Commander! Five probes simultaneously active among the suns.",
         }
 

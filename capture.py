@@ -20,7 +20,7 @@ W, H = 1200, 800
 # Build scene
 renderer = Renderer(screen)
 sim = create_three_body_system('default')
-planet = create_planet(sim, pos=(100, 100), vel=(0, 30), name="Trisolaris")
+planet = create_planet(sim, pos=(100, 100), vel=(0, 30), name="Chaos Prime")
 civ = Civilization()
 lore = LoreEngine()
 starfield = Starfield(W, H, 300)
@@ -48,8 +48,8 @@ for _ in range(10):
 
 # Force a nice quote
 lore.current_quote = (
-    '"You must know that the universe is a dark forest. '
-    'Every civilization is a hunter, stalking through the trees."'
+    '"The ancients recorded 192 civilizations. '
+    'Only the 193rd learned to watch the patterns."'
 )
 lore.quote_timer = 500
 

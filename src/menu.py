@@ -1,4 +1,4 @@
-"""Menu system for Three Body VR."""
+"""Menu system for Chaotic Suns."""
 
 import math
 import pygame
@@ -208,23 +208,23 @@ class Menu:
         for offset in range(3, 0, -1):
             alpha = glow_intensity // (offset + 1)
             glow_color = (255, 220, 50, alpha)
-            glow_surf = self.title_font.render("THREE BODY VR", True, glow_color[:3])
+            glow_surf = self.title_font.render("CHAOTIC SUNS", True, glow_color[:3])
             glow_rect = glow_surf.get_rect(
                 center=(self.width // 2, title_y)
             )
             surface.blit(glow_surf, glow_rect.inflate(offset * 4, offset * 4))
 
-        title_surf = self.title_font.render("THREE BODY VR", True, YELLOW)
+        title_surf = self.title_font.render("CHAOTIC SUNS", True, YELLOW)
         title_rect = title_surf.get_rect(center=(self.width // 2, title_y))
         surface.blit(title_surf, title_rect)
 
         # Subtitle
-        sub_text = "Trisolaris awaits..."
+        sub_text = "Navigate the chaos..."
         sub_surf = self.subtitle_font.render(sub_text, True, CYAN)
         sub_rect = sub_surf.get_rect(center=(self.width // 2, title_y + 50))
         surface.blit(sub_surf, sub_rect)
 
-        # Decorative three-body diagram
+        # Decorative n-body diagram
         diagram_y = title_y - 80
         for i in range(3):
             angle = i * 2 * math.pi / 3 + self.title_glow_offset * 0.3
@@ -257,7 +257,7 @@ class Menu:
             btn.render(surface)
 
         # Version
-        ver = self.small_font.render("v0.1 · Cixin Liu's Three-Body Problem", True, DARK_GRAY)
+        ver = self.small_font.render("v0.2 · Navigate the chaos", True, DARK_GRAY)
         surface.blit(ver, (10, self.height - 25))
 
 

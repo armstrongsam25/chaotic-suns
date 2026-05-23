@@ -1,7 +1,7 @@
 """Prediction overlay and interactive knowledge system.
 
 Players can draw predicted orbital paths for the suns to attempt
-to solve the three-body problem. Accuracy rewards knowledge points.
+to solve the n-body chaos problem. Accuracy rewards knowledge points.
 """
 
 import math
@@ -147,7 +147,7 @@ class PredictionOverlay:
 
 
 class KnowledgeDiscovery:
-    """System for discovering knowledge about the three-body problem."""
+    """System for discovering knowledge about the n-body problem."""
 
     def __init__(self):
         self.discoveries = []
@@ -165,8 +165,8 @@ class KnowledgeDiscovery:
             (20, "Basic patterns", "You've noticed the suns follow predictable patterns... sometimes."),
             (40, "Gravitational dance", "The three suns influence each other in a complex gravitational waltz."),
             (60, "Stable regions", "There exist narrow bands of stability in the chaos."),
-            (80, "Three-body solution", "You're approaching an understanding of the three-body problem!"),
-            (95, "Ultimate knowledge", "The Trisolaran civilization thanks you. You have found the solution."),
+            (80, "N-body solution", "You're approaching an understanding of the n-body problem!"),
+            (95, "Ultimate knowledge", "The civilization thanks you. You have found the solution."),
         ]
 
         for req, title, desc in thresholds:
@@ -192,4 +192,4 @@ class KnowledgeDiscovery:
         elif accuracy < 80:
             return "You're learning. Look for patterns repeating over long time periods."
         else:
-            return "Impressive! You're close to understanding the three-body problem."
+            return "Impressive! You're close to understanding the n-body problem."

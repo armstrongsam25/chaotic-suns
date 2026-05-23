@@ -4,7 +4,7 @@
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 FPS = 60
-TITLE = "Three Body VR - Trisolaris"
+TITLE = "Chaotic Suns"
 
 # Colors
 BLACK = (0, 0, 0)

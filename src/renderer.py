@@ -1,4 +1,4 @@
-"""Renderer for the Three Body VR game with VR-like visual effects."""
+"""Renderer for Chaotic Suns with VR-like visual effects."""
 
 import math
 import random

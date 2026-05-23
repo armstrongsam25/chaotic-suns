@@ -1,4 +1,4 @@
-"""Achievements display screen for Three Body VR."""
+"""Achievements screen for Chaotic Suns."""
 
 import pygame
 from src.constants import *
