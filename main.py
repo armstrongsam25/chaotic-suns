@@ -967,5 +967,26 @@ class Game:
 
 
 if __name__ == "__main__":
-    game = Game()
-    game.run()
+    # Check if running under pygbag (browser)
+    import sys
+    if hasattr(sys, "_pygbag_import"):
+        # Running in browser via pygbag
+        import asyncio
+        os.environ['SDL_AUDIODRIVER'] = 'dummy'
+
+        async def main():
+            game = Game()
+            # Patch run() to use async ticks
+            while game.running:
+                dt = game.clock.tick(FPS) / 1000.0
+                game.handle_input()
+                game.update(dt)
+                game.render()
+                await asyncio.sleep(0)
+            game.audio.stop_music()
+            pygame.quit()
+
+        asyncio.run(main())
+    else:
+        game = Game()
+        game.run()

@@ -8,3 +8,6 @@ venv/
 .env
 .DS_Store.gmail-app-password
 .itch-api-key
+build/web-cache/
+build/version.txt
+*.apk
