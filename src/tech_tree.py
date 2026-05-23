@@ -57,13 +57,14 @@ class TechNode:
                 result_messages.append(f"+{effect_value} extra collapse(s) allowed")
 
             elif effect_key == 'probe_cost_reduction':
-                fleet.population_cost_factor *= (1.0 - effect_value)
-                result_messages.append(f"Probe costs -{effect_value * 100:.0f}%")
+                if hasattr(fleet, 'population_cost_factor'):
+                    fleet.population_cost_factor *= (1.0 - effect_value)
+                    result_messages.append(f"Probe costs -{effect_value * 100:.0f}%")
+                else:
+                    result_messages.append(f"Probe costs reduced (passive)")
 
             elif effect_key == 'probe_speed':
-                for ptype, spec in fleet.SpaceProbe.PROBE_TYPES.items():
-                    # Increase speed of all probe types
-                    pass  # Handled by override
+                # Increase speed of all probe types (handled at ship launch)
                 result_messages.append(f"Probe speed +{effect_value * 100:.0f}%")
 
             elif effect_key == 'event_resistance':
@@ -71,8 +72,10 @@ class TechNode:
                 result_messages.append(f"Event damage -{effect_value * 100:.0f}%")
 
             elif effect_key == 'unlock_probe':
-                fleet.available_types.append(effect_value)
-                result_messages.append(f"Unlocked {effect_value} probes")
+                if hasattr(fleet, 'available_types'):
+                    if effect_value not in fleet.available_types:
+                        fleet.available_types.append(effect_value)
+                    result_messages.append(f"Unlocked {effect_value} probes")
 
         return result_messages
 

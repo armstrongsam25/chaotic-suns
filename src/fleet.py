@@ -142,6 +142,7 @@ class FleetManager:
     def __init__(self):
         self.probes = []
         self.available_types = ['scout']  # Start with scouts only
+        self.reward_queue = []
         self.population_cost_factor = 0.5
 
     def can_build(self, probe_type, civilization):
@@ -191,11 +192,11 @@ class FleetManager:
 
     def unlock_tech(self, knowledge_level):
         """Unlock new probe types based on civilization knowledge."""
-        if knowledge_level >= 25 and 'observer' not in self.available_types:
+        if knowledge_level >= 35 and 'observer' not in self.available_types:
             self.available_types.append('observer')
-        if knowledge_level >= 50 and 'lander' not in self.available_types:
+        if knowledge_level >= 60 and 'lander' not in self.available_types:
             self.available_types.append('lander')
-        if knowledge_level >= 80 and 'interstellar' not in self.available_types:
+        if knowledge_level >= 85 and 'interstellar' not in self.available_types:
             self.available_types.append('interstellar')
 
     def get_probe_count(self):

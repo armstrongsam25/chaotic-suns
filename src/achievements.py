@@ -82,7 +82,10 @@ class AchievementsScreen:
         ]
 
         for key, name, desc in all_milestones:
-            unlocked = self.milestones.get(key, False)
+            if hasattr(self.milestones, 'milestones'):
+                unlocked = self.milestones.milestones.get(key, False)
+            else:
+                unlocked = self.milestones.get(key, False)
             color = GREEN if unlocked else DARK_GRAY
             icon = "✦" if unlocked else "◇"
 
